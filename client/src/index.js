@@ -98,13 +98,10 @@ app.post('/forgot-password', async (req, res) => {
             return res.status(404).send("User not found");
         }
 
-        // Assuming you have a function to generate a random temporary password
         const temporaryPassword = generateTemporaryPassword();
 
-        // Assuming you have a function to send an email with the temporary password
         sendTemporaryPasswordEmail(user.email, temporaryPassword);
 
-        // Update user's password in the database with the temporary password
         await UserCollection.updateOne({ email: req.body.email }, { $set: { password: temporaryPassword } });
 
         res.status(200).send("Temporary password sent successfully. Please check your email.");
