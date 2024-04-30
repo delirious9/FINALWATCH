@@ -13,6 +13,20 @@ export default function LandingPage() {
                 <Link to="/login">
                     <button className="primary-button">log in</button>
                 </Link>
+                return (
+                    <div className="main">
+                      <h1>React Search</h1>
+                      <div className="search">
+                        <TextField
+                          id="outlined-basic"
+                          variant="outlined"
+                          fullWidth
+                          label="Search"
+                        />
+                      </div>
+                      <List />
+                    </div>
+                )
                 <Link to="/register">
                     <button className="primary-button" id="reg_btn"><span>register </span></button>
                 </Link>
