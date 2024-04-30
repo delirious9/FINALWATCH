@@ -67,28 +67,27 @@ app.post('/signup', async (req, res) => {
 
 
 app.post('/login', async (req, res) => {
-
     try {
-        const check = await LogInCollection.findOne({ name: req.body.name })
+        // Check if the input is either a username or email
+        const check = await LogInCollection.findOne({
+            $or: [{ name: req.body.name }, { email: req.body.name }]
+        });
+
+        if (!check) {
+            return res.send("User not found"); // User not found in the database
+        }
 
         if (check.password === req.body.password) {
-            res.status(201).render("home", { naming: `${req.body.password}+${req.body.name}` })
+            res.status(201).render("home", { naming: `${req.body.password}+${req.body.name}` });
+        } else {
+            res.send("Incorrect password");
         }
-
-        else {
-            res.send("incorrect password")
-        }
-
-
-    } 
-    
-    catch (e) {
-
-        res.send("wrong details")
-        
-
+    } catch (error) {
+        console.error("Error during login:", error);
+        res.status(500).send("Internal server error");
     }
-})
+});
+
 
 app.post('/forgot-password', async (req, res) => {
 
